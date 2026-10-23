@@ -6,7 +6,7 @@ window.YANHE_CONFIG = {
     authDomain: "yanhe-music-live115.firebaseapp.com",
     databaseURL: "https://yanhe-music-live115-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "yanhe-music-live115",
-    appId: 1:25989090816:web:741b59cae2fb656aacd2e5"
+    appId: "1:25989090816:web:741b59cae2fb656aacd2e5"
   },
 
   teacherUid: "",
