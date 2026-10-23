@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "rooms": {
+      "$room": {
+        ".read": "auth != null",
+        "control": {
+          ".write": "auth != null && auth.uid === 'REPLACE_WITH_TEACHER_UID' && auth.token.firebase.sign_in_provider === 'google.com'",
+          ".validate": "newData.hasChildren(['round','open','version']) && (newData.child('round').val() === 'A' || newData.child('round').val() === 'B') && newData.child('open').isBoolean() && newData.child('version').isNumber()"
+        },
+        "votes": {
+          ".write": "auth != null && auth.uid === 'REPLACE_WITH_TEACHER_UID' && auth.token.firebase.sign_in_provider === 'google.com' && !newData.exists()",
+          "$round": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && root.child('rooms').child($room).child('control').child('open').val() === true && root.child('rooms').child($room).child('control').child('round').val() === $round && ($round === 'A' || $round === 'B')",
+              ".validate": "newData.isString() && (newData.val() === 'warm' || newData.val() === 'nervous' || newData.val() === 'calm' || newData.val() === 'energy')"
+            }
+          }
+        }
+      }
+    }
+  }
+}
