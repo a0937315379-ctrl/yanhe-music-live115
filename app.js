@@ -30,7 +30,23 @@ function subscribeRoom(){unsubscribe.forEach(f=>f());unsubscribe=[];if(online){c
 window.addEventListener('storage',e=>{if(!online&&e.key===localStoreKey())setData(localRead())});
 function musicPlay(id){if(role!=='teacher')return;const video=$('campus'),audio=$('bgm');audio.pause();video.pause();video.currentTime=0;audio.src=music[id];audio.currentTime=0;Promise.allSettled([video.play(),audio.play()]).then(res=>{if(res.some(v=>v.status==='rejected')){$('studentResult').textContent='如果沒有聲音，請再次點選配樂按鈕，並確認iPad音量。'}});for(const b of document.querySelectorAll('[data-music]'))b.classList.toggle('on',b.dataset.music===id)}
 for(const b of document.querySelectorAll('[data-music]'))b.onclick=()=>musicPlay(b.dataset.music);
-$('googleLogin').onclick=async()=>{if(!online)return;try{await auth.signOut();const provider=new firebase.auth.GoogleAuthProvider();await auth.signInWithPopup(provider)}catch(e){showError(e)}};$('googleLogout').onclick=()=>auth?.signOut().then(()=>auth.signInAnonymously()).catch(showError);
+$('googleLogin').onclick = () => {
+  if (!online) return;
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(showError);
+};
+$('googleLogout').onclick = () =>
+  auth?.signOut()
+    .then(() => auth.signInAnonymously())
+    .catch(showError);
+  if (!online) return;
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(showError);
+};
+$('googleLogout').onclick = () =>
+  auth?.signOut()
+    .then(() => auth.signInAnonymously())
+    .catch(showError);
 async function initFirebase(){if(!CFG.enabled||!CFG.firebase?.apiKey||!window.firebase){online=false;setConn();subscribeRoom();return}try{firebase.initializeApp(CFG.firebase);auth=firebase.auth();db=firebase.database();online=true;auth.onAuthStateChanged(async u=>{if(!u){try{await auth.signInAnonymously()}catch(e){showError(e)}return}user=u;teacher=!!CFG.teacherUid&&u.uid===CFG.teacherUid&&u.providerData?.some(p=>p.providerId==='google.com');setConn();subscribeRoom()})}catch(e){online=false;setConn();subscribeRoom();showError(e)}}
 view(role);initFirebase();
 })();
