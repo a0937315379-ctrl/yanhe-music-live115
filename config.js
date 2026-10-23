@@ -9,6 +9,6 @@ window.YANHE_CONFIG = {
     appId: "1:25989090816:web:741b59cae2fb656aacd2e5"
   },
 
-  teacherUid: "",
+  teacherUid: "YF43N5th6rdB1eifbGbrHU58yKp2",
   initialRoom: "YANHE01"
 };
